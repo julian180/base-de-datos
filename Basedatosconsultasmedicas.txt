@@ -1,0 +1,166 @@
+CREATE database Citas_Medicas;
+Use Citas_Medicas;
+CREATE TABLE paciente  (
+  `Cod` INT NOT NULL,
+  `Nombre_paciente` VARCHAR(45) NOT NULL,
+  `Direccion` VARCHAR(45) NOT NULL,
+  `Telefono` VARCHAR(10) NOT NULL,
+  `Clasificacion` VARCHAR(1) NOT NULL,
+  PRIMARY KEY (`Cod`)) ;
+
+CREATE TABLE Centro_de_atencion (
+  `Nombre` VARCHAR(40) NOT NULL,
+  `Direccion` VARCHAR(45) NOT NULL,
+  `Codigo_ciudad` INT NOT NULL,
+  PRIMARY KEY (`Nombre`));
+
+
+CREATE TABLE Medico (
+  `Id` INT NOT NULL,
+  `Nombre` VARCHAR(45) NOT NULL,
+  `Direccion` VARCHAR(45) NOT NULL,
+  `Telefono` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`Id`));
+
+CREATE TABLE Especialidad (
+  `Codigo` INT NOT NULL,
+  `Nombre` VARCHAR(45) NOT NULL,
+  `id_medico` INT NOT NULL,
+  `Cod_paciente` INT NOT NULL,
+  PRIMARY KEY (`Codigo`));
+
+CREATE TABLE Cita_medica (
+  `Cod` INT NOT NULL,
+  `Especialidad` VARCHAR(50) NOT NULL,
+  `Telefono` VARCHAR(10) NOT NULL,
+  `Fecha` DATETIME NOT NULL,
+  `Centro_de_atencion_Nombre` VARCHAR(40) NOT NULL,
+  `Medico_Id` INT NOT NULL,
+  `paciente_Cod` INT NOT NULL,
+  `Especialidad_Codigo` INT NOT NULL,
+  `Facturacion` INT NOT NULL,
+  PRIMARY KEY (`Cod`));
+ 
+
+CREATE TABLE Observaciones (
+  `Motivo_consulta` VARCHAR(40) NOT NULL,
+  `Diagnostico` VARCHAR(45) NOT NULL,
+  `Cita_medica_Cod` INT NOT NULL );
+
+
+
+CREATE TABLE Ciudad (
+  `Codigo_ciudad` INT NOT NULL,
+  `Nombre` VARCHAR(45) NOT NULL,
+  `Centro_de_atencion_Nombre` VARCHAR(40) NOT NULL,
+  PRIMARY KEY (`Codigo_ciudad`));
+
+CREATE TABLE Formulacion (
+  `Dosis` VARCHAR(50) NOT NULL,
+  `Cod_medicamento` INT NOT NULL,
+  `Cita_medica_Cod` INT NOT NULL,
+  PRIMARY KEY (`Cod_medicamento`));
+
+CREATE TABLE Medicamento (
+  `Nombre` VARCHAR(45) NOT NULL,
+  `Formulacion_Cod_medicamento` INT NOT NULL );
+
+
+CREATE TABLE Remision(
+  `Numero` INT primary key NOT NULL AUTO_INCREMENT,
+  `Razon` VARCHAR(255) NOT NULL,
+  `Especialidad_Codigo` INT NOT NULL,
+  `Medico_Id` INT NOT NULL );
+
+
+
+ALTER TABLE ciudad ADD foreign KEY (Centro_de_atencion_nombre) REFERENCES centro_de_atencion (nombre);
+
+
+ALTER TABLE Cita_medica ADD foreign KEY (Centro_de_atencion_nombre) REFERENCES centro_de_atencion (nombre);
+
+
+ALTER TABLE Cita_medica ADD foreign KEY (Paciente_cod) REFERENCES paciente (cod);
+
+
+ALTER TABLE Cita_medica ADD foreign KEY (Especialidad_Codigo) REFERENCES Especialidad(codigo);
+
+
+ALTER TABLE Formulacion ADD foreign KEY (Cita_medica_Cod) REFERENCES Cita_medica(cod);
+
+ALTER TABLE Cita_medica ADD foreign KEY (Medico_ID) REFERENCES Medico(Id);
+
+
+ALTER TABLE Observaciones ADD foreign KEY (Cita_medica_cod) REFERENCES Cita_medica(cod); 
+
+ALTER TABLE Remision ADD foreign KEY (Medico_ID) REFERENCES Medico(Id); 
+
+ALTER TABLE remision ADD foreign KEY (Especialidad_Codigo) REFERENCES Especialidad(Codigo); 
+
+ALTER TABLE Medicamento ADD foreign KEY (Formulacion_Cod_medicamento) REFERENCES Formulacion(Cod_medicamento); 
+
+
+
+ Insert into Paciente (Cod, nombre_paciente, direccion, telefono, Clasificacion) VALUES
+('1019147531','Martin_Garcia','Cra45a_#106a35','3213791040','A'),
+('1121547337','Julio_Perez','Cra47_#116_8','3103712547','C'),
+('1020047911','Rafael_Medina','Calle80_#84_21','3116668721','B'),
+('1120365582','Andrea_Gonzales','Calle127a_#58_34','3204206310','A'),
+('1015107003','Maria_Rozo','Calle72_#11_34','3133582714','D');
+('1181554847','David_Marquez','Calle129_#58_27','3118107147','A');
+('1516854984','Mauricio_Chaparro','Calle51_#39_61','3192572971','C');
+('1515541472','Laura_Palacios','Calle22_#64_47','3229849847','B');
+
+Insert into Medico (ID, Nombre, Direccion, Telefono) VALUES
+('1131584531','Jose_Paez','Cra54a_#113a5','114583'),
+('1101999327','Raul_Torres','Cra63_#80_91','125864'),
+('1028327991','Sofia_Mojica','Calle90_#15_21','248577'),
+('1126976382','Victoria_Ortiz','Calle127_#7_54','741352'),
+('1815627893','Enrique_Garavito','Calle60a_#13_84','251476');
+
+
+
+Insert into Centro_de_atencion (Nombre, Direccion, codigo_ciudad) VALUES
+('CA_Pasadena','Cra47a_#104B_16','1723'),
+('CA_Castellana','Cra45_#96_86','4587'),
+('CA_Virrey','Calle90a_#7B_52','2369'),
+('CA_Cedritos','Cra15a_#142_21','2537'),
+('CA_Colina','Cra58_#154B_22','5928'),
+('CA_Molinos','Cra13a_#108a_37','9125');
+
+Insert into Ciudad (Codigo_ciudad, Nombre, Centro_de_atencion_Nombre) VALUES
+('157','Bogota','CA_Pasadena'),
+('158','Bogotá','CA_Castellana'),
+('221','Cali','CA_Virrey'),
+('222','Cali','CA_Cedritos'),
+('367','Medellin','CA_Colina'),
+('368','Medellin','CA_Molinos');
+
+Insert into Especialidad (Codigo, nombre, ID_medico, Cod_paciente) VALUES
+('114583','Cardiologia','1131584531','1019147531'),
+('125864','Neurología','1101999327','1121547337'),
+('248577','Oncologia','1028327991','1020047911'),
+('741352','Endocrinología','1126976382','1120365582'),
+('251476','Gastroenterologia','1815627893','1015107003');
+
+Insert into Cita_Medica (Cod, Especialidad, Telefono, fecha, centro_de_atencion_nombre, Medico_id, Paciente_cod, Especialidad_codigo, facturacion) VALUES
+('14563','Cardiologia','6728813','2019-08-20','CA_Pasadena','1131584531','1019147531','114583','452000'),
+('25398','Neurologia','6518920','2019-09-10','CA_Castellana','1101999327','1121547337','125864','365000'),
+('57891','Oncologia','6321893','2019-09-23','CA_Virrey','1028327991','1020047911','248577','730000'),
+('24987','endocrinologia','5722057','2019-08-29','CA_cedritos','1126976382','1120365582','741352','541000'),
+('29874','Gastroenterologia','6985433','2019-10-1','CA_Colina','1815627893','1015107003','251476','280000');
+
+
+Insert into Formulacion (Dosis, cod_medicamento, Cita_medica_cod) VALUES
+('4mlXDia','1425369','14563'),
+('2PillXDia','8425391','25398'),
+('1AmpollaXDia','7485963','57891'),
+('4CucharadasXDia','6958471','24987'),
+('1CucharadaX6horas','5265347','29874');
+
+Insert into Remision  ( razon, Especialidad_codigo, Medico_id) VALUES
+('Cita_dentro_2meses','114583','1131584531'),
+('Pte_entrega_resultados','125864','1101999327'),
+('Pedir_cita_lecturaExamenes','248577','1028327991'),
+('Cita_dentro_1mes','741352','1126976382'),
+('Cirugia_ambulatoria','251476','1815627893');
