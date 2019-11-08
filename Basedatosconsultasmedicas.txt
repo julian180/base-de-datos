@@ -71,6 +71,18 @@ CREATE TABLE Remision(
   `Razon` VARCHAR(255) NOT NULL,
   `Especialidad_Codigo` INT NOT NULL,
   `Medico_Id` INT NOT NULL );
+  
+Create table USUARIOS_PASS (
+ID int not null auto_increment primary key,
+Usuarios varchar (20) not null,
+Password varchar(20) not null
+);
+
+
+Insert into USUARIOS_PASS(ID,USUARIOS,PASSWORD) VALUES(1,"John","abc123");
+Insert into USUARIOS_PASS(ID,USUARIOS,PASSWORD) VALUES(2,"Julian","abc123");
+Insert into USUARIOS_PASS(ID,USUARIOS,PASSWORD) VALUES(3,"Campero","abc123");
+
 
 
 
