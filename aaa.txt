@@ -1,0 +1,17 @@
+hacer formularios para 
+
+Eliminar Datos para cada tabla
+
+Actualizar datos para cada tabla
+
+Centro de atencion
+Cita medica
+ciudad 
+especialidad
+formulacion  
+medicamento  no funciona,, depende de la tabla formulacion codigo medicamento,, deberia ser alreves, cambiar llaves primarias
+medico
+observaciones
+paciente
+remision
+
